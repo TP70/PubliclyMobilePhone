@@ -1,4 +1,4 @@
-
+from Validation import Validations
 from Menus import UserMenus
 import csv
 import operator
@@ -97,7 +97,38 @@ class DataManipulation:
             print(f'Company: {key}, instances: {value}')
 
 
+class UserOptions:
+
+    @classmethod
+    def user_options(cls, chose_option):
+        """
+        Directs the client according to the requested option
+        """
+        if chose_option == '1':
+            print(*([x for x in DataManipulation.get_datafile_ascending_order()]), sep='\n')
+        elif chose_option == '2':
+            print(*([x for x in DataManipulation.get_first_five_current_rent_rows()]), sep='\n')
+        elif chose_option == '3':
+            print(*([x for x in DataManipulation.get_lease_years_where_25()]), sep='\n')
+        elif chose_option == '4':
+            print(DataManipulation.total_rent_where_lease_years_25())
+        elif chose_option == '5':
+            DataManipulation.get_unique_tenant_names()
+        elif chose_option == '6':
+            print(*([x for x in DataManipulation.get_rows_between_dates()]), sep='\n')
+        elif chose_option == '7':
+            quit()
+
+    @classmethod
+    def get_user_option(cls):
+        """
+        Gets the validated option from the client
+        """
+        return cls.user_options(
+            Validations.validation_user_input('OPTION NUMBER: ', ['1', '2', '3', '4', '5', '6', '7'], True))
+
+
 if __name__ == '__main__':
     print('\n\n     --------  Welcome!  --------\n\n'.upper())
     UserMenus.display_initial_menu()
-    # UserOptions.get_user_option()
+    UserOptions.get_user_option()
