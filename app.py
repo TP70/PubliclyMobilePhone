@@ -39,7 +39,7 @@ class DataManipulation:
         return [line for line in (sorted(ReadFile.read_csv()[1:], key=operator.itemgetter(10)))[:5]]
 
     @classmethod
-    def get_lease_years_where_25(cls):
+    def get_lease_years_where_25(cls) -> list:
         """
         output: prints all data rows where the lease years
         is equal to 25
@@ -47,7 +47,7 @@ class DataManipulation:
         return [x for x in [line for line in ReadFile.read_csv() if line[9] == 25]]
 
     @classmethod
-    def total_rent_where_lease_years_25(cls):
+    def total_rent_where_lease_years_25(cls) -> float:
         """
         output: returns total rent as integer where
         lease years is 25
@@ -58,7 +58,7 @@ class DataManipulation:
         return total_rent
 
     @classmethod
-    def get_rows_between_dates(cls):
+    def get_rows_between_dates(cls) -> list:
         """
         output: answer for Q4, prints row info between date
         specified
@@ -69,38 +69,18 @@ class DataManipulation:
         return [x for x in date_list]
 
     @classmethod
-    def get_unique_tenant_names(cls):  # good room for improvement
+    def get_unique_tenant_names(cls) -> object:
         """
         output: prints dictionary information for unique
         tenant names with instances as integer.
         """
-        tenant_dict = {
-            'Arqiva Services Ltd': 0,
-            'Vodafone Ltd': 0,
-            '02 (UK) Ltd': 0,
-            'EE & Hutchinson 3G UK Ltd': 0,
-            'Cornerstone Telecommunications Infrastructure': 0
-        }
-        for line in ReadFile.read_csv()[1:]:
-            if 'arqiva' in line[6].lower().split():
-                tenant_dict['Arqiva Services Ltd'] += 1
-            elif 'vodafone' in line[6].lower().split():
-                tenant_dict['Vodafone Ltd'] += 1
-            elif 'o2' in line[6].lower().split():
-                tenant_dict['02 (UK) Ltd'] += 1
-            elif 'everything' in line[6].lower().split():
-                tenant_dict['EE & Hutchinson 3G UK Ltd'] += 1
-            elif 'cornerstone' in line[6].lower().split():
-                tenant_dict['Cornerstone Telecommunications Infrastructure'] += 1
-
-        for key, value in tenant_dict.items():
-            print(f'Company: {key}, instances: {value}')
+        return print(*(set([x[6] for x in [x for x in ReadFile.read_csv()[1:] if x not in x]])), sep='\n')
 
 
 class UserOptions:
 
     @classmethod
-    def user_options(cls, chose_option):
+    def user_options(cls, chose_option: str):
         """
         Directs the client according to the requested option
         """
@@ -118,6 +98,7 @@ class UserOptions:
             cls.display_initial_menu()
         elif chose_option == '5':
             DataManipulation.get_unique_tenant_names()
+            # print(*(set([x[6] for x in DataManipulation.get_unique_tenant_names()])), sep='\n')
             cls.display_initial_menu()
         elif chose_option == '6':
             print(*([x for x in DataManipulation.get_rows_between_dates()]), sep='\n')
@@ -144,7 +125,7 @@ class UserOptions:
         UserOptions.get_user_option()
 
     @classmethod
-    def get_user_option(cls):
+    def get_user_option(cls) -> object:
         """
         Gets the validated option from the client
         """
